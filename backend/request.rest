@@ -1,0 +1,265 @@
+### Health Check
+GET http://localhost:5000/health
+
+### IMPORTANT: Before running these requests, make sure to set up your .env file with database configurations
+# Create a .env file in the backend directory with the required database variables
+
+### ==================== AUTHENTICATION ====================
+
+### Register Student (User)
+POST http://localhost:5000/auth/register/student
+Content-Type: application/json
+
+{
+    "email": "student001@university.com",
+    "username": "John Doe",
+    "password": "password123",
+    "student_id": "STU001",
+    "faculty": "Faculty of Computer Science",
+    "major": "Information Technology",
+    "phone": "+62812345678"
+}
+
+### Register Admin
+POST http://localhost:5000/auth/register/admin
+Content-Type: application/json
+
+{
+    "email": "admin@university.com",
+    "username": "Admin User",
+    "password": "admin123",
+    "phone": "+62887654321"
+}
+
+### Login Student
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email": "student001@university.com",
+    "password": "password123"
+}
+
+### Login Admin
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@university.com",
+    "password": "admin123"
+}
+
+### Get User Profile
+GET http://localhost:5000/auth/profile
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Update Profile
+PUT http://localhost:5000/auth/profile
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "username": "John Updated",
+    "phone": "+62812345679",
+    "faculty": "Faculty of Engineering"
+}
+
+### Change Password
+PUT http://localhost:5000/auth/change-password
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "currentPassword": "password123",
+    "newPassword": "newpassword456"
+}
+
+### Refresh Token
+POST http://localhost:5000/auth/refresh
+
+### Logout
+POST http://localhost:5000/auth/logout
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### ==================== STUDENT ACTIVITIES (MySQL) ====================
+
+### Create Student Activity
+POST http://localhost:5000/activities
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "title": "Cultural Festival 2024",
+    "description": "Annual cultural festival showcasing diverse traditions",
+    "activity_type": "non_academic",
+    "organizer": "Student Cultural Committee",
+    "location": "Main Campus Auditorium",
+    "start_date": "2024-06-15T09:00:00Z",
+    "end_date": "2024-06-17T18:00:00Z",
+    "budget_needed": 50000000,
+    "participant_count": 500
+}
+
+### Get All Activities (Student - own activities only)
+GET http://localhost:5000/activities
+Authorization: Bearer STUDENT_TOKEN_HERE
+
+### Get All Activities (Admin - all activities)
+GET http://localhost:5000/admin/activities
+Authorization: Bearer ADMIN_TOKEN_HERE
+
+### Get Activities by Type
+GET http://localhost:5000/activities?activity_type=academic
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Get Activity by ID
+GET http://localhost:5000/activities/1
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Update Activity
+PUT http://localhost:5000/activities/1
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "budget_needed": 55000000,
+    "participant_count": 600
+}
+
+### Approve Activity (Admin only)
+PUT http://localhost:5000/admin/activities/1/approve
+Authorization: Bearer ADMIN_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "approval_notes": "Activity approved with budget allocation of 55,000,000 IDR"
+}
+
+### Get Activity Statistics (Admin only)
+GET http://localhost:5000/admin/activities/stats
+Authorization: Bearer ADMIN_TOKEN_HERE
+
+### Delete Activity
+DELETE http://localhost:5000/activities/1
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### ==================== STUDENT PROPOSALS (PostgreSQL) ====================
+
+### Create Student Proposal
+POST http://localhost:5000/proposals
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "title": "Smart Campus Initiative",
+    "background": "Proposal to implement IoT solutions for campus management",
+    "objectives": "Improve campus efficiency and student experience through technology",
+    "target_audience": "All campus community members",
+    "implementation_plan": "Phase 1: IoT sensors installation, Phase 2: Mobile app development",
+    "timeline": {
+        "phase1": "3 months",
+        "phase2": "6 months"
+    },
+    "budget_breakdown": {
+        "equipment": 75000000,
+        "development": 50000000,
+        "maintenance": 25000000
+    },
+    "expected_outcomes": "Reduced energy consumption, improved security, better facilities management",
+    "risk_assessment": "Technical challenges, budget constraints, user adoption",
+    "evaluation_method": "KPI tracking, user feedback, cost-benefit analysis"
+}
+
+### Get All Proposals (Student - own proposals only)
+GET http://localhost:5000/proposals
+Authorization: Bearer STUDENT_TOKEN_HERE
+
+### Get All Proposals (Admin - all proposals)
+GET http://localhost:5000/admin/proposals
+Authorization: Bearer ADMIN_TOKEN_HERE
+
+### Get Proposals by Status
+GET http://localhost:5000/proposals?status=submitted
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Get Proposal by ID
+GET http://localhost:5000/proposals/1
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Get Proposal by Number
+GET http://localhost:5000/proposals/number/PROP-202401-123456
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Update Proposal
+PUT http://localhost:5000/proposals/1
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "budget_breakdown": {
+        "equipment": 80000000,
+        "development": 55000000,
+        "maintenance": 30000000
+    }
+}
+
+### Submit Proposal
+PUT http://localhost:5000/proposals/1/submit
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Review Proposal (Admin only)
+PUT http://localhost:5000/admin/proposals/1/review
+Authorization: Bearer ADMIN_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "status": "approved",
+    "reviewer_comments": "Excellent proposal with clear implementation plan. Approved for funding."
+}
+
+### Get Proposal Statistics (Admin only)
+GET http://localhost:5000/admin/proposals/stats
+Authorization: Bearer ADMIN_TOKEN_HERE
+
+### Delete Proposal
+DELETE http://localhost:5000/proposals/1
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### ==================== ADMIN USER MANAGEMENT ====================
+
+### Get All Users (Admin only)
+GET http://localhost:5000/admin/users
+Authorization: Bearer ADMIN_TOKEN_HERE
+
+### ==================== LEGACY AUTHENTICATION (Backward Compatibility) ====================
+
+### Legacy Register
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+    "email": "legacy@university.com",
+    "username": "legacy student",
+    "password": "password123",
+    "role": "user"
+}
+
+### Legacy Login
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "legacy@university.com",
+    "password": "password123"
+}
+
+### ==================== SYSTEM INFORMATION ====================
+
+### Get System Health and Information
+GET http://localhost:5000/health
+
+### Test Database Connectivity
+# This endpoint shows which databases are connected and working
+GET http://localhost:5000/health
+
+
