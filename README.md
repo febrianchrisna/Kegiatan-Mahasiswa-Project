@@ -1,4 +1,4 @@
-# Tugas Membuat Notes Praktikum TCC
+# Project Akhir Aplikasi Pengajuan Kegiatan Mahasiswa
 ## Setup with this project :
 1. Clone repository ini
 2. Menjalankan Backend
@@ -6,6 +6,7 @@
       ```python
       cd backend
       npm i
+      npm i bcrypt jsonwebtoken dotenv cookie-parser pg
       ```
     -  Jalankan server backend dengan `nodemon index`
 3. Menjalankan Frontend:
